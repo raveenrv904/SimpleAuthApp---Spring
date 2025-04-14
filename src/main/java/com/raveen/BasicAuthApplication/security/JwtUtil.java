@@ -21,27 +21,29 @@ public class JwtUtil {
     private long jwtExpirationInMs;
 
 
-    public String generateToken(String email) {
+    public String generateToken(String email ,String role) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSigningKey())
                 .compact();
     }
 
-    public String getEmailFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
+    public Claims extractAllClaims(String token) {
+
+        return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        return claims.getSubject();
     }
+
+
 
     public boolean validateToken(String token) {
         try{

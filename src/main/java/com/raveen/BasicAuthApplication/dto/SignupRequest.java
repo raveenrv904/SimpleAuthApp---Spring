@@ -5,6 +5,16 @@ public class SignupRequest {
     private String email;
     private String password;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role;
+
     public String getUsername() {
         return username;
     }
